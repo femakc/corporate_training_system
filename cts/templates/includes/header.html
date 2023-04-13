@@ -1,0 +1,35 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'posts:index' %}">
+<!--        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">-->
+        <span style="color:red">Kорпоративная cистема обучения</span>
+      </a>
+      {% with request.resolver_match.view_name as view_name %} 
+      <ul class="nav nav-pills">
+        {% if user.is_authenticated %}
+          {% if perms.posts.add_post %}
+            <li class="nav-item">
+              <a class="nav-link{% if view_name  == 'posts:post_create' %} active{% endif %}"
+              href="{% url 'posts:post_create' %}">Добавить материал</a>
+            </li>
+          {% endif %}
+        <li class="nav-item"> 
+          <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'posts:profile' user.username %}">
+            Все курсы пользователя: {{ user.username }}</a>
+        </li>
+        {% else %}
+        <li class="nav-item"> 
+          <a class="nav-link link-light {% if view_name  == 'users:login' %} active{% endif %}"
+          href="{% url 'users:login' %}">Войти</a>
+        </li>
+        {% endif %}
+      {% endwith %}
+      </ul>
+    </div>
+  </nav>      
+</header>
