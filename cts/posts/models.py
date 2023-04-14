@@ -27,6 +27,9 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
+    def get_slug(self):
+        return self.slug
+
     class Meta:
         verbose_name = 'Course'
         verbose_name_plural = 'Courses'

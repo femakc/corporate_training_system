@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Course, User, Follow
+from users.models import Enrollment
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import PostForm, CommentForm
 from .paginator import paginator
@@ -11,7 +12,7 @@ def index(request):
     # template = 'posts/index.html'
     template = 'posts/index_group.html'
     # post_list = Post.objects.all()
-    groups = Course.objects.all()
+    groups = Enrollment.objects.filter(user=request.user).select_related('course')
     context = {
 
         'groups': groups,
@@ -35,22 +36,22 @@ def group_posts(request, slug):
     return render(request, template, context)
 
 
-def profile(request, username):
-    """Профаил пользователя"""
-    template = 'posts/profile.html'
-    following = False
-    author = User.objects.get(username=username)
-    if request.user.is_authenticated:
-        following = Follow.objects.select_related(
-            'author').filter(author_id=author).exists()
-    post_list = Post.objects.select_related('author').filter(author_id=author)
-
-    context = {
-        'page_obj': paginator(post_list, request),
-        'author': author,
-        'following': following,
-    }
-    return render(request, template, context)
+# def profile(request, username):
+#     """Профаил пользователя"""
+#     template = 'posts/profile.html'
+#     following = False
+#     author = User.objects.get(username=username)
+#     if request.user.is_authenticated:
+#         following = Follow.objects.select_related(
+#             'author').filter(author_id=author).exists()
+#     post_list = Post.objects.select_related('author').filter(author_id=author)
+#
+#     context = {
+#         'page_obj': paginator(post_list, request),
+#         'author': author,
+#         'following': following,
+#     }
+#     return render(request, template, context)
 
 
 def post_detail(request, post_id):
@@ -83,6 +84,7 @@ def post_create(request):
 
 
 @login_required
+@permission_required('posts.change_post', raise_exception=True)
 def post_edit(request, post_id):
     """Страница редактирования поста"""
     template = 'posts/create_post.html'
@@ -108,6 +110,7 @@ def post_edit(request, post_id):
 
 
 @login_required
+@permission_required('posts.delete_post', raise_exception=True)
 def post_delete(request, post_id):
     """Функция удаления поста"""
     post = get_object_or_404(Post, id=post_id)
@@ -130,38 +133,38 @@ def add_comment(request, post_id):
     return redirect('posts:post_detail', post_id=post_id)
 
 
-@login_required
-def follow_index(request):
-    """Страница подписки"""
-    current_user = request.user
-    template = 'posts/follow.html'
-    followings = Follow.objects.select_related(
-        'user').filter(user_id=current_user)
-    post_list = Post.objects.select_related('author').filter(
-        author__in=[i.author_id for i in followings]
-    )
-    context = {
-        'page_obj': paginator(post_list, request),
-    }
-    return render(request, template, context)
+# @login_required
+# def follow_index(request):
+#     """Страница подписки"""
+#     current_user = request.user
+#     template = 'posts/follow.html'
+#     followings = Follow.objects.select_related(
+#         'user').filter(user_id=current_user)
+#     post_list = Post.objects.select_related('author').filter(
+#         author__in=[i.author_id for i in followings]
+#     )
+#     context = {
+#         'page_obj': paginator(post_list, request),
+#     }
+#     return render(request, template, context)
 
 
-@login_required
-def profile_follow(request, username):
-    """Подписаться на автора"""
-    user = request.user
-    author = get_object_or_404(User, username=username)
-    if user != author:
-        if not Follow.objects.filter(user=user, author=author).exists():
-            Follow.objects.create(user=user, author=author)
-    return redirect('posts:follow_index')
-
-
-@login_required
-def profile_unfollow(request, username):
-    """Одписаться на автора"""
-    user = request.user
-    author = get_object_or_404(User, username=username)
-    if Follow.objects.filter(user=user, author=author).exists():
-        Follow.objects.filter(user=user, author=author).delete()
-    return redirect('posts:follow_index')
+# @login_required
+# def profile_follow(request, username):
+#     """Подписаться на автора"""
+#     user = request.user
+#     author = get_object_or_404(User, username=username)
+#     if user != author:
+#         if not Follow.objects.filter(user=user, author=author).exists():
+#             Follow.objects.create(user=user, author=author)
+#     return redirect('posts:follow_index')
+#
+#
+# @login_required
+# def profile_unfollow(request, username):
+#     """Одписаться на автора"""
+#     user = request.user
+#     author = get_object_or_404(User, username=username)
+#     if Follow.objects.filter(user=user, author=author).exists():
+#         Follow.objects.filter(user=user, author=author).delete()
+#     return redirect('posts:follow_index')

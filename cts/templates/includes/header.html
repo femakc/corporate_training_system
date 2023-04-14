@@ -19,8 +19,8 @@
           <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'posts:profile' user.username %}">
-            Все курсы пользователя: {{ user.username }}</a>
+          <a class="nav-link" href="{% url 'posts:index' %}">
+            Пользователь: {{ user.username }}</a>
         </li>
         {% else %}
         <li class="nav-item"> 
