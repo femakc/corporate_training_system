@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Group, User, Follow
+from .models import Post, Course, User, Follow
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import PostForm, CommentForm
 from .paginator import paginator
@@ -8,10 +8,13 @@ from .paginator import paginator
 @login_required(login_url='/auth/login/')
 def index(request):
     """Главная страница"""
-    template = 'posts/index.html'
-    post_list = Post.objects.all()
+    # template = 'posts/index.html'
+    template = 'posts/index_group.html'
+    # post_list = Post.objects.all()
+    groups = Course.objects.all()
     context = {
-        'page_obj': paginator(post_list, request),
+
+        'groups': groups,
     }
     return render(request, template, context)
 
@@ -19,7 +22,7 @@ def index(request):
 def group_posts(request, slug):
     """Страница группы постов"""
     template = 'posts/group_list.html'
-    group = get_object_or_404(Group, slug=slug)
+    group = get_object_or_404(Course, slug=slug)
     post_list = (
         Post
         .objects
@@ -75,7 +78,7 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect("posts:profile", post.author)
+            return redirect("posts:index")
     return render(request, template, {'form': form})
 
 

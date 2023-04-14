@@ -6,10 +6,9 @@
   <div class="container py-5">
     <h1>Выберете группу обучающих материалов</h1>
     {% include 'posts/includes/switcher.html' %}
-    {% for post in page_obj %}
-      {% include 'includes/single_post.html' with show_group=True show_author=True show_user=True %}
+    {% for group in groups %}
+      {{ group }}
       {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
-    {% include 'posts/includes/paginator.html' %}
   </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Group
+from .models import Post, Course
 from embed_video.admin import AdminVideoMixin
 
 
@@ -19,4 +19,4 @@ class PostAdmin(admin.ModelAdmin, AdminVideoMixin):
     empty_value_display = '-пусто-'
 
 
-admin.site.register(Group)
+admin.site.register(Course)

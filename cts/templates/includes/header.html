@@ -9,7 +9,7 @@
       {% with request.resolver_match.view_name as view_name %} 
       <ul class="nav nav-pills">
         {% if user.is_authenticated %}
-          {% if perms.posts.add_post %}
+          {% if user.role == "teacher" %}
             <li class="nav-item">
               <a class="nav-link{% if view_name  == 'posts:post_create' %} active{% endif %}"
               href="{% url 'posts:post_create' %}">Добавить материал</a>

@@ -1,12 +1,14 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 from core.models import CreatedModel
 from embed_video.fields import EmbedVideoField
+from django.conf import settings
 
-User = get_user_model()
+User = settings.AUTH_USER_MODEL
+# User = get_user_model()
 
 
-class Group(models.Model):
+class Course(models.Model):
     title = models.CharField(
         max_length=200,
         verbose_name='Заголовок',
@@ -26,8 +28,8 @@ class Group(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Group'
-        verbose_name_plural = 'Groups'
+        verbose_name = 'Course'
+        verbose_name_plural = 'Courses'
 
 
 class Post(CreatedModel):
@@ -43,7 +45,7 @@ class Post(CreatedModel):
         help_text='Автор'
     )
     group = models.ForeignKey(
-        Group,
+        Course,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
@@ -56,7 +58,7 @@ class Post(CreatedModel):
         upload_to='posts/',
         blank=True
     )
-    video = EmbedVideoField()
+    video = EmbedVideoField(blank=True)
 
     def __str__(self):
         return self.text[:15]
