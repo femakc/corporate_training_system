@@ -16,7 +16,7 @@ urlpatterns = [
         views.add_comment,
         name='add_comment'
     ),
-    # path('follow/', views.follow_index, name='follow_index'),
+    path('add_cource/', views.finde_student, name='find_student'),
     # path(
     #     'profile/<str:username>/follow/',
     #     views.profile_follow,

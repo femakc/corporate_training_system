@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}
+  Выберете студента
+{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h3>Выберете студента для назначения есму курса</h3>
+      {% for students in students %}
+        {{ students }}
+
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+</div>
+{% endblock %}

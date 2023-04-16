@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Course, User, Follow
+from cts.settings import ROLES_CHOICES
+from .models import Post, Course, User
 from users.models import Enrollment
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import PostForm, CommentForm
@@ -132,6 +133,11 @@ def add_comment(request, post_id):
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
 
+
+def finde_student(request):
+    students = User.objects.all()
+    template = 'posts/find_student.html'
+    return render(request, template, students)
 
 # @login_required
 # def follow_index(request):
