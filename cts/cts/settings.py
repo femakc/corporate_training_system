@@ -71,9 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cts.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # TODO переделать на PostgreSQL
 DATABASES = {
     'default': {

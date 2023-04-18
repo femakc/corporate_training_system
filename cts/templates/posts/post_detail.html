@@ -3,7 +3,7 @@
   {{ post.text|truncatechars:30 }}
 {% endblock %}
 {% block content %}
-{% load thumbnail %}
+{% load thumbnail embed_video_tags %}
   <main>
     <div class="row">
       <aside class="col-12 col-md-3">
@@ -29,6 +29,9 @@
         {% endthumbnail %}
         <p>
           {{ post.text }}
+        </p>
+        <p>
+          {% video post.video 'small' %}
         </p>
         {% if post.author == request.user %}
           <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">

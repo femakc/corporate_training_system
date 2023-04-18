@@ -64,7 +64,10 @@ def post_detail(request, post_id):
 @permission_required('posts.add_post', raise_exception=True)
 def post_create(request):
     """Страница создания поста"""
-    form = PostForm(request.POST or None)
+    form = PostForm(
+        request.POST or None,
+        files=request.FILES or None
+    )
     template = 'posts/create_post.html'
     if request.method == 'POST':
         if form.is_valid():
@@ -125,6 +128,8 @@ def add_comment(request, post_id):
     return redirect('posts:post_detail', post_id=post_id)
 
 
+@login_required
+@permission_required('posts.add_post', raise_exception=True)
 def add_course_student(request, user_id):
     students = get_object_or_404(User, pk=user_id)
     user_groups = Enrollment.objects.filter(user=students).select_related('course')
