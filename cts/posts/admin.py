@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Course
+from .models import Post, Course, LessonSubmitUser
 from embed_video.admin import AdminVideoMixin
 
 
@@ -20,3 +20,4 @@ class PostAdmin(admin.ModelAdmin, AdminVideoMixin):
 
 
 admin.site.register(Course)
+admin.site.register(LessonSubmitUser)

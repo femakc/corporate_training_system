@@ -4,13 +4,12 @@ from datetime import date
 from haystack.generic_views import SearchView
 from django.shortcuts import render, get_object_or_404, redirect
 from cts.settings import ROLES_CHOICES
-from .models import Post, Course
-from users.models import Enrollment
+from .models import Post, Course, LessonSubmitUser
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import PostForm, CommentForm
 from .paginator import paginator
 from django.conf import settings
-from users.models import User , Enrollment
+from users.models import User, Enrollment
 from users.forms import AddCourseUserForm, SearchForm
 from haystack.query import SearchQuerySet
 
@@ -50,13 +49,19 @@ def post_detail(request, post_id):
     """Страница подробной информации о посте"""
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, id=post_id)
+    submit_users = LessonSubmitUser.objects.filter(post=post).select_related("user")
     comments = post.comments.all()
     form = CommentForm()
     context = {
+        'submit_users': submit_users,
         'post': post,
         'form': form,
         'comments': comments
     }
+    if request.method == 'POST':
+        submit_users = LessonSubmitUser.objects.create(post=post, user=request.user)
+        submit_users.save()
+        return redirect("posts:group_list", post.group.slug)
     return render(request, template, context)
 
 

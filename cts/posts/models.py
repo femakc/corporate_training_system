@@ -62,6 +62,12 @@ class Post(CreatedModel):
         blank=True
     )
     video = EmbedVideoField(blank=True)
+    submit_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through="LessonSubmitUser",
+        verbose_name="урок пройден",
+        help_text="пользователь прошел урок"
+    )
 
     def __str__(self):
         return self.text[:15]
@@ -70,6 +76,19 @@ class Post(CreatedModel):
         ordering = ['-created']
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
+
+
+class LessonSubmitUser(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='lesson_submit'
+    )
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name="lesson_submit"
+    )
 
 
 class Comment(CreatedModel):

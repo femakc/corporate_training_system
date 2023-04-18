@@ -21,8 +21,16 @@ class User(AbstractUser):
 
 
 class Enrollment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enroll')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enroll")
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='enroll'
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name="enroll"
+    )
     # date = models.DateField()
     # mark = models.IntegerField(null=True, blank=True)
 

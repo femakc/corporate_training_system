@@ -33,6 +33,27 @@
         <p>
           {% video post.video 'small' %}
         </p>
+        <p>
+          {% if request.user.role == "student" and not submit_users %}
+            <form method="post">
+            {% csrf_token %}
+              <div class="buttons has-addons">
+                  <button class="button is-success">Прошел урок</button>
+              </div>
+            </form>
+          {% endif %}
+          {% if request.user.role == "teacher" %}
+            {% if not submit_users %}
+              нету студентов изучивших статью!<br>
+            {% else %}
+              список студентов изучивших статью:<br>
+              {% for student in submit_users %}
+                {{ student.user }}<br>
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+        </p>
+
         {% if post.author == request.user %}
           <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">
             редактировать запись
