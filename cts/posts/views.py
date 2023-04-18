@@ -1,10 +1,19 @@
+import time
+from datetime import date
+
+from haystack.generic_views import SearchView
 from django.shortcuts import render, get_object_or_404, redirect
 from cts.settings import ROLES_CHOICES
-from .models import Post, Course, User
+from .models import Post, Course
 from users.models import Enrollment
 from django.contrib.auth.decorators import login_required, permission_required
 from .forms import PostForm, CommentForm
 from .paginator import paginator
+from django.conf import settings
+from users.models import User , Enrollment
+from users.forms import AddCourseUserForm, SearchForm
+from haystack.query import SearchQuerySet
+
 
 
 @login_required(login_url='/auth/login/')
@@ -35,24 +44,6 @@ def group_posts(request, slug):
         'page_obj': paginator(post_list, request),
     }
     return render(request, template, context)
-
-
-# def profile(request, username):
-#     """Профаил пользователя"""
-#     template = 'posts/profile.html'
-#     following = False
-#     author = User.objects.get(username=username)
-#     if request.user.is_authenticated:
-#         following = Follow.objects.select_related(
-#             'author').filter(author_id=author).exists()
-#     post_list = Post.objects.select_related('author').filter(author_id=author)
-#
-#     context = {
-#         'page_obj': paginator(post_list, request),
-#         'author': author,
-#         'following': following,
-#     }
-#     return render(request, template, context)
 
 
 def post_detail(request, post_id):
@@ -134,10 +125,45 @@ def add_comment(request, post_id):
     return redirect('posts:post_detail', post_id=post_id)
 
 
-def finde_student(request):
-    students = User.objects.all()
+def add_course_student(request, user_id):
+    students = get_object_or_404(User, pk=user_id)
+    user_groups = Enrollment.objects.filter(user=students).select_related('course')
+    form = AddCourseUserForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=students
+    )
+    template = 'posts/add_course.html'
+
+    if request.method == 'POST':
+        if form.is_valid():
+            my_m2ms = form.cleaned_data['user_group']
+            for i in my_m2ms:
+                Enrollment.objects.update_or_create(user=students, course=Course.objects.get(pk=i.pk))
+            form.save()
+            return redirect("posts:search_results", user_id)
+        return render(request, template, {'form': form})
+    contex = {
+        'form': form,
+        'students': students,
+        'user_groups': user_groups
+    }
+    return render(request, template, contex)
+
+
+class SearchView(SearchView):
     template = 'posts/find_student.html'
-    return render(request, template, students)
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+
+        question = request.GET.get('q')
+        if question is not None:
+            search_result = User.objects.filter(username=question)
+            context["search_result"] = search_result
+
+        return render(request, self.template, context=context)
+
 
 # @login_required
 # def follow_index(request):

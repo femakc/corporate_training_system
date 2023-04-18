@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import SearchView
 
 app_name = 'posts'
 
@@ -16,15 +17,6 @@ urlpatterns = [
         views.add_comment,
         name='add_comment'
     ),
-    path('add_cource/', views.finde_student, name='find_student'),
-    # path(
-    #     'profile/<str:username>/follow/',
-    #     views.profile_follow,
-    #     name='profile_follow'
-    # ),
-    # path(
-    #     'profile/<str:username>/unfollow/',
-    #     views.profile_unfollow,
-    #     name='profile_unfollow'
-    # ),
+    path('add_course/<int:user_id>', views.add_course_student, name='search_results'),
+    path('search/', SearchView.as_view(), name='find_student'),
 ]

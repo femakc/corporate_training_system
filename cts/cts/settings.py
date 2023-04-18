@@ -27,12 +27,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'phonenumber_field',
+    'posts.apps.PostsConfig',
     'users.apps.UsersConfig',
     'embed_video',
     'core.apps.CoreConfig',
-    'posts.apps.PostsConfig',
     'sorl.thumbnail',
+    'haystack',
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -137,8 +140,6 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = str(BASE_DIR / 'media')
 
-AUTH_USER_MODEL = 'users.User'
-
 STUDENT = 'student'
 TEACHER = 'teacher'
 ADMIN = 'admin'
@@ -149,6 +150,16 @@ ROLES_CHOICES = [
     (ADMIN, 'Администратор'),
     (SUPERUSER, 'Суперюзер Django'),
 ]
+
+# AUTH_USER_MODEL = 'users.User'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
+
+# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 # TODO удалить после разработки
 INTERNAL_IPS = [

@@ -12,14 +12,19 @@ class User(AbstractUser):
         verbose_name='Роль пользователя',
         help_text='роль'
     )
-    user_group = models.ManyToManyField(Course, through="Enrollment")
+    user_group = models.ManyToManyField(
+        Course,
+        through="Enrollment",
+        verbose_name="Курсы пользователя",
+        help_text="Выберете курс"
+    )
 
 
 class Enrollment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enroll')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enroll")
-    date = models.DateField()
-    mark = models.IntegerField(null=True, blank=True)
+    # date = models.DateField()
+    # mark = models.IntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Доступный курс'

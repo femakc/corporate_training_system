@@ -19,6 +19,4 @@ class EnrollmentAdmin(admin.ModelAdmin):
     list_display = (
         'user',
         'course',
-        'date',
-        'mark'
     )

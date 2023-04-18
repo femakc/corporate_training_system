@@ -1,10 +1,10 @@
 from django.db import models
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 from core.models import CreatedModel
 from embed_video.fields import EmbedVideoField
 from django.conf import settings
 
-User = settings.AUTH_USER_MODEL
+# User = settings.AUTH_USER_MODEL
 # User = get_user_model()
 
 
@@ -41,7 +41,7 @@ class Post(CreatedModel):
         help_text='Текст нового поста'
     )
     author = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='posts',
         verbose_name="Автор поста",
@@ -83,7 +83,7 @@ class Comment(CreatedModel):
         help_text='Пост к которому относится коментарий'
     )
     author = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='comments',
         verbose_name="Автор поста",
@@ -105,14 +105,14 @@ class Comment(CreatedModel):
 
 class Follow(models.Model):
     user = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='follower',
         verbose_name="Подписчик",
         help_text='тот кто подписывается ',
     )
     author = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='following',
         verbose_name="Блогер",
