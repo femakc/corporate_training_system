@@ -169,7 +169,7 @@ class SearchView(SearchView):
 
         question = request.GET.get('q')
         if question is not None:
-            search_result = User.objects.filter(username=question)
+            search_result = User.objects.filter(fio__icontains=question)
             context["search_result"] = search_result
 
         return render(request, self.template, context=context)

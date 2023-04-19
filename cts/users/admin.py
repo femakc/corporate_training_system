@@ -4,9 +4,9 @@ from .models import User, Enrollment
 
 
 class UserAdmin(UserAdmin):
-    list_display = ("username", "email", "first_name", "last_name", "role", "is_staff")
+    list_display = ("username", "fio", "role", "phone")
     fieldsets = (
-        (None, {"fields": ("username", "password", "role", "groups")}),
+        (None, {"fields": ("username", "password", "fio", "phone", "role", "groups")}),
     )
 
 

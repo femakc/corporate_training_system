@@ -13,13 +13,13 @@
           </li>  
           {% if post.group %} 
             <li class="list-group-item">
-              Группа: {{ post.group }}
+              Курс: {{ post.group }}
               <a href="{% url 'posts:group_list' post.group.slug %}">
                 все записи группы {{ post.group }}</a>
             </li>
           {% endif %}     
           <li class="list-group-item">
-            Автор: {{ post.author.get_full_name }}
+            Автор: {{ post.author.fio }}
           </li>
         </ul>
       </aside>
@@ -38,7 +38,7 @@
             <form method="post">
             {% csrf_token %}
               <div class="buttons has-addons">
-                  <button class="button is-success">Прошел урок</button>
+                  <button class="btn btn-primary">Прошел урок</button>
               </div>
             </form>
           {% endif %}
@@ -48,7 +48,7 @@
             {% else %}
               список студентов изучивших статью:<br>
               {% for student in submit_users %}
-                {{ student.user }}<br>
+                {{ student.user.fio }}<br>
               {% endfor %}
             {% endif %}
           {% endif %}
