@@ -33,8 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "django.contrib.postgres",
-    "psqlextra",
-    # 'phonenumber_field',
     'phone_field',
     'posts.apps.PostsConfig',
     'users.apps.UsersConfig',

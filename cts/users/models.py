@@ -2,9 +2,8 @@ from cts.settings import ROLES_CHOICES
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from posts.models import Course
-from phonenumber_field.phonenumber import PhoneNumber
 from phone_field import PhoneField
-from psqlextra.indexes import UniqueIndex
+
 
 
 class User(AbstractUser):
