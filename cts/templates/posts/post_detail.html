@@ -14,7 +14,7 @@
           {% if post.group %} 
             <li class="list-group-item">
               Курс: {{ post.group }}
-              <a href="{% url 'posts:group_list' post.group.slug %}">
+              <a href="{% url 'posts:group_list' post.group.slug %}" style="color:#e85221">
                 все записи группы {{ post.group }}</a>
             </li>
           {% endif %}     
@@ -38,7 +38,7 @@
             <form method="post">
             {% csrf_token %}
               <div class="buttons has-addons">
-                  <button class="btn btn-primary">Прошел урок</button>
+                  <button class="btn btn-danger">Прошел урок</button>
               </div>
             </form>
           {% endif %}
@@ -55,7 +55,7 @@
         </p>
 
         {% if post.author == request.user %}
-          <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">
+          <a class="btn btn-danger" href="{% url 'posts:post_edit' post.id %}">
             редактировать запись
           </a> 
         {% endif %} 

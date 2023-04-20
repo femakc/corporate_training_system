@@ -1,34 +1,34 @@
 {% load static %}
 <header>
-  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+  <nav class="navbar navbar-light" style="background-color: #00696e ">
     <div class="container">
       <a class="navbar-brand" href="{% url 'posts:index' %}">
-<!--        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">-->
-        <span style="color:red">Kорпоративная cистема обучения</span>
+        <img src="{% static 'img/logo.png' %}" width="60" height="40" class="d-inline-block align-top" alt="">
+        <span class="btn btn-danger">Kорпоративная cистема обучения</span>
       </a>
       {% with request.resolver_match.view_name as view_name %} 
       <ul class="nav nav-pills">
         {% if user.is_authenticated %}
           {% if user.role == "teacher" %}
             <li class="nav-item">
-              <a class="nav-link{% if view_name  == 'posts:post_create' %} active{% endif %}"
+              <a class="btn btn-danger"
               href="{% url 'posts:post_create' %}">Добавить материал</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link{% if view_name  == 'posts:find_student' %} active{% endif %}"
+              <a class="btn btn-danger" {% if view_name  == 'posts:find_student' %} active{% endif %}"
               href="{% url 'posts:find_student' %}">Назначить курс студенту</a>
             </li>
           {% endif %}
         <li class="nav-item"> 
-          <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
+          <a class="btn btn-danger" href="{% url 'users:logout' %}">Выйти</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'posts:index' %}">
+          <a class="nav-link disabled" style="color:#e85221" href="{% url 'posts:index' %}">
             Пользователь: {{ user.username }}</a>
         </li>
         {% else %}
         <li class="nav-item"> 
-          <a class="nav-link link-light {% if view_name  == 'users:login' %} active{% endif %}"
+          <a class="btn btn-danger" {% if view_name  == 'users:login' %} active{% endif %}"
           href="{% url 'users:login' %}">Войти</a>
         </li>
         {% endif %}

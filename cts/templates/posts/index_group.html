@@ -6,7 +6,7 @@
 <div class="container py-5">
   <h1>Выберете группу обучающих материалов</h1>
       {% for group in groups %}
-        <a href="{% url 'posts:group_list' group.course.slug %}">
+        <a href="{% url 'posts:group_list' group.course.slug %}" style="color:#e85221">
                 все записи группы {{ group.course }}</a>
         {% if not forloop.last %}<hr>{% endif %}
       {% endfor %}

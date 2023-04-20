@@ -1,8 +1,8 @@
 
 <p>{{ post.text|slice:":200" }} ......</p><br>
-<a href="{% url 'posts:post_detail' post.id %}">
+<a href="{% url 'posts:post_detail' post.id %}" style="color:#e85221" >
   подробная информация </a><br>
 {% if post.group and show_group %}
-  <a href="{% url 'posts:group_list' post.group.slug %}">
-    все записи группы {{ post.group }}</a>
+  <a href="{% url 'posts:group_list' post.group.slug %}" style="color:#e85221" >
+    все записи курса {{ post.group }}</a>
 {% endif %}
