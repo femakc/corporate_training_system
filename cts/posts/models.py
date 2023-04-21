@@ -61,7 +61,11 @@ class Post(CreatedModel):
         upload_to='posts/',
         blank=True
     )
-    video = EmbedVideoField(blank=True)
+    video = EmbedVideoField(
+        blank=True,
+        verbose_name="Видео",
+        help_text="вставте ссылку на видео"
+    )
     submit_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         through="LessonSubmitUser",

@@ -3,7 +3,7 @@
   <nav class="navbar navbar-light" style="background-color: #00696e">
     <div class="container">
       <a class="navbar-brand" href="{% url 'posts:index' %}">
-        <img src="{% static 'img/logo.png' %}" width="65" height="45" class="d-inline-block align-top" alt="">
+        <img src="{% static 'img/logo.png' %}" width="68" height="45" class="d-inline-block align-top" alt="">
            <span class="btn btn-danger">Kорпоративная cистема обучения</span>
       </a>
 <!--      <button type="button" class="btn btn-outline-danger">Kорпоративная cистема обучения </button>-->
@@ -12,29 +12,27 @@
       <ul class="nav nav-pills">
         {% if user.is_authenticated %}
           {% if user.role == "teacher" %}
-          <div class="btn-group me-3" role="group" aria-label="First group">
-            <button type="button"<a class="btn btn-danger"
-          href="{% url 'posts:post_create' %}" >Добавить материал </a></button>
+          <div class="btn-group me-1" role="group" aria-label="First group">
+             <a class="btn btn-danger"
+            href="{% url 'posts:post_create' %}" >Добавить материал</a>
           </div>
-          <div class="btn-group me-3" role="group" aria-label="First group">
-            <button type="button" class="btn btn-danger"><a class="btn btn-danger"
-          href="{% url 'posts:find_student' %}">Назначить курс студенту</a></button>
+          <div class="btn-group me-1" role="group" aria-label="First group">
+            <a class="btn btn-danger"
+            href="{% url 'posts:find_student' %}">Назначить курс студенту</a></button>
           </div>
           {% endif %}
-        <div class="btn-group me-3" role="group" aria-label="First group">
-          <button type="button" class="btn btn-danger">
+        <div class="btn-group me-1" role="group" aria-label="First group">
+          <div>
             <a class="btn btn-danger" href="{% url 'users:logout' %}">Выйти</a>
-          </button>
+          </div>
         </div>
-        <li class="nav-item">
-          <a class="nav-link disabled" style="color:#000000" href="{% url 'posts:index' %}">
-            Пользователь: {{ user.username }}</a>
-        </li>
         {% else %}
-        <li class="nav-item">
-          <a class="btn btn-danger"
-          href="{% url 'users:login' %}">Войти</a>
-        </li>
+        <div class="btn-group me-1" role="group" aria-label="First group">
+          <div>
+            <a class="btn btn-danger"
+            href="{% url 'users:login' %}">Войти</a>
+          </div>
+        </div>
         {% endif %}
       {% endwith %}
       </ul>

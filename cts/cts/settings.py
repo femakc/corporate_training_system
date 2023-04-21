@@ -164,7 +164,9 @@ ROLES_CHOICES = [
     (SUPERUSER, 'Суперюзер Django'),
 ]
 
-# PHONENUMBER_DEFAULT_REGION = "RU"
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.template.context_processors.request',
+)
 
 HAYSTACK_CONNECTIONS = {
     'default': {
