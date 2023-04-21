@@ -1,5 +1,6 @@
-from .models import User
 from haystack import indexes
+
+from .models import User
 
 
 class CustomerIndex(indexes.SearchIndex, indexes.Indexable):

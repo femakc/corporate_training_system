@@ -6,8 +6,6 @@
         <img src="{% static 'img/logo.png' %}" width="68" height="45" class="d-inline-block align-top" alt="">
            <span class="btn btn-danger">Kорпоративная cистема обучения</span>
       </a>
-<!--      <button type="button" class="btn btn-outline-danger">Kорпоративная cистема обучения </button>-->
-
       {% with request.resolver_match.view_name as view_name %}
       <ul class="nav nav-pills">
         {% if user.is_authenticated %}

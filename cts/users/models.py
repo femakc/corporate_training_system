@@ -1,9 +1,9 @@
-from cts.settings import ROLES_CHOICES
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-from posts.models import Course
+from django.db import models
 from phone_field import PhoneField
+from posts.models import Course
 
+from cts.settings import ROLES_CHOICES
 
 
 class User(AbstractUser):
@@ -44,8 +44,6 @@ class Enrollment(models.Model):
         on_delete=models.CASCADE,
         related_name="enroll"
     )
-    # date = models.DateField()
-    # mark = models.IntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Доступный курс'

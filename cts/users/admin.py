@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Enrollment
+
+from .models import Enrollment, User
 
 
 class UserAdmin(UserAdmin):
@@ -11,7 +12,6 @@ class UserAdmin(UserAdmin):
 
 
 admin.site.register(User, UserAdmin)
-# admin.site.register(Enrollment)
 
 
 @admin.register(Enrollment)

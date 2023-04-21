@@ -1,11 +1,7 @@
-from django.db import models
-from django.contrib.auth import get_user_model
 from core.models import CreatedModel
-from embed_video.fields import EmbedVideoField
 from django.conf import settings
-
-# User = settings.AUTH_USER_MODEL
-# User = get_user_model()
+from django.db import models
+from embed_video.fields import EmbedVideoField
 
 
 class Course(models.Model):
@@ -37,14 +33,14 @@ class Course(models.Model):
 
 class Post(CreatedModel):
     text = models.TextField(
-        verbose_name="Пост",
-        help_text='Текст нового поста'
+        verbose_name="Статья",
+        help_text='Текст новой статью'
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='posts',
-        verbose_name="Автор поста",
+        verbose_name="Автор статьи",
         help_text='Автор'
     )
     group = models.ForeignKey(
@@ -54,10 +50,10 @@ class Post(CreatedModel):
         null=True,
         related_name='posts',
         verbose_name="Группа",
-        help_text='Группа, к которой будет относиться пост'
+        help_text='Группа, к которой будет относиться статья'
     )
     image = models.ImageField(
-        'Картинка',
+        'Изображение',
         upload_to='posts/',
         blank=True
     )
@@ -78,8 +74,8 @@ class Post(CreatedModel):
 
     class Meta:
         ordering = ['-created']
-        verbose_name = 'Post'
-        verbose_name_plural = 'Posts'
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
 
 
 class LessonSubmitUser(models.Model):
@@ -122,30 +118,5 @@ class Comment(CreatedModel):
 
     class Meta:
         ordering = ['-created']
-        verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
-
-
-class Follow(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='follower',
-        verbose_name="Подписчик",
-        help_text='тот кто подписывается ',
-    )
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='following',
-        verbose_name="Блогер",
-        help_text='тот на кого подписываются',
-    )
-
-    def __str__(self):
-        return "Подписка на автора"
-
-    class Meta:
-        verbose_name = 'follow'
-        verbose_name_plural = 'follows'
-        unique_together = ('user', 'author',)
+        verbose_name = 'Коментарий'
+        verbose_name_plural = 'Коментарии'

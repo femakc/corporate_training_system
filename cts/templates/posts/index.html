@@ -3,13 +3,12 @@
   Выберете группу обучающих материалов
 {% endblock %}
 {% block content %}
-  <div class="container py-5">
-    <h1>Выберете группу обучающих материалов</h1>
-    {% include 'posts/includes/switcher.html' %}
-    {% for post in page_obj %}
-      {% include 'includes/single_post.html' with show_group=True show_author=True show_user=True %}
-      {% if not forloop.last %}<hr>{% endif %}
-    {% endfor %}
-    {% include 'posts/includes/paginator.html' %}
-  </div>
+<div class="container py-5">
+    <span style="color:#e85221"><h2> Выберите группу обучения</h2></span>
+      {% for group in groups %}
+        <a href="{% url 'posts:group_list' group.course.slug %}" style="color:#e85221">
+                Все записи курса {{ group.course }}</a>
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+</div>
 {% endblock %}

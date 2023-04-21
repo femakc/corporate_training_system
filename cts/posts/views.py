@@ -1,29 +1,21 @@
-import time
-from datetime import date
-
-from haystack.generic_views import SearchView
-from django.shortcuts import render, get_object_or_404, redirect
-from cts.settings import ROLES_CHOICES
-from .models import Post, Course, LessonSubmitUser
 from django.contrib.auth.decorators import login_required, permission_required
-from .forms import PostForm, CommentForm
-from .paginator import paginator
-from django.conf import settings
-from users.models import User, Enrollment
-from users.forms import AddCourseUserForm, SearchForm
-from haystack.query import SearchQuerySet
+from django.shortcuts import get_object_or_404, redirect, render
+from haystack.generic_views import SearchView
+from users.forms import AddCourseUserForm
+from users.models import Enrollment, User
 
+from .forms import CommentForm, PostForm
+from .models import Course, LessonSubmitUser, Post
+from .paginator import paginator
 
 
 @login_required(login_url='/auth/login/')
 def index(request):
     """Главная страница"""
-    # template = 'posts/index.html'
-    template = 'posts/index_group.html'
-    # post_list = Post.objects.all()
-    groups = Enrollment.objects.filter(user=request.user).select_related('course')
+    template = 'posts/index.html'
+    groups = Enrollment.objects.filter(
+        user=request.user).select_related('course')
     context = {
-
         'groups': groups,
     }
     return render(request, template, context)
@@ -49,7 +41,8 @@ def post_detail(request, post_id):
     """Страница подробной информации о посте"""
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, id=post_id)
-    submit_users = LessonSubmitUser.objects.filter(post=post).select_related("user")
+    submit_users = LessonSubmitUser.objects.filter(
+        post=post).select_related("user")
     comments = post.comments.all()
     form = CommentForm()
     context = {
@@ -173,40 +166,3 @@ class SearchView(SearchView):
             context["search_result"] = search_result
 
         return render(request, self.template, context=context)
-
-
-# @login_required
-# def follow_index(request):
-#     """Страница подписки"""
-#     current_user = request.user
-#     template = 'posts/follow.html'
-#     followings = Follow.objects.select_related(
-#         'user').filter(user_id=current_user)
-#     post_list = Post.objects.select_related('author').filter(
-#         author__in=[i.author_id for i in followings]
-#     )
-#     context = {
-#         'page_obj': paginator(post_list, request),
-#     }
-#     return render(request, template, context)
-
-
-# @login_required
-# def profile_follow(request, username):
-#     """Подписаться на автора"""
-#     user = request.user
-#     author = get_object_or_404(User, username=username)
-#     if user != author:
-#         if not Follow.objects.filter(user=user, author=author).exists():
-#             Follow.objects.create(user=user, author=author)
-#     return redirect('posts:follow_index')
-#
-#
-# @login_required
-# def profile_unfollow(request, username):
-#     """Одписаться на автора"""
-#     user = request.user
-#     author = get_object_or_404(User, username=username)
-#     if Follow.objects.filter(user=user, author=author).exists():
-#         Follow.objects.filter(user=user, author=author).delete()
-#     return redirect('posts:follow_index')

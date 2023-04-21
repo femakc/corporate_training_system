@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Post, Course, LessonSubmitUser
 from embed_video.admin import AdminVideoMixin
+
+from .models import Course, LessonSubmitUser, Post
 
 
 @admin.register(Post)
