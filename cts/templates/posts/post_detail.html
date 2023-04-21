@@ -56,7 +56,7 @@
 
         {% if post.author == request.user %}
           <a class="btn btn-danger" href="{% url 'posts:post_edit' post.id %}">
-            редактировать запись
+            Редактировать запись
           </a> 
         {% endif %} 
         {% include 'posts/includes/comments.html' %}       
