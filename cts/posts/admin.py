@@ -9,6 +9,7 @@ class PostAdmin(admin.ModelAdmin, AdminVideoMixin):
     list_display = (
         'pk',
         'text',
+        'geeks_field',
         'created',
         'author',
         'group',
