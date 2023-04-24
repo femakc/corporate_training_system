@@ -16,5 +16,6 @@ class AddCourseUserForm(forms.ModelForm):
         model = User
         fields = ('user_group',)
 
+
 class SearchForm(forms.Form):
     query = forms.CharField()

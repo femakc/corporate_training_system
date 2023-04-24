@@ -142,7 +142,10 @@ def add_course_student(request, user_id):
         if form.is_valid():
             my_m2ms = form.cleaned_data['user_group']
             for i in my_m2ms:
-                Enrollment.objects.update_or_create(user=students, course=Course.objects.get(pk=i.pk))
+                Enrollment.objects.update_or_create(
+                    user=students,
+                    course=Course.objects.get(pk=i.pk)
+                )
             form.save()
             return redirect("posts:search_results", user_id)
         return render(request, template, {'form': form})
