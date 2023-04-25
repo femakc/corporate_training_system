@@ -33,11 +33,7 @@ class Course(models.Model):
 
 
 class Post(CreatedModel):
-    text = models.TextField(
-        verbose_name="Статья",
-        help_text='Текст новой статью'
-    )
-    geeks_field = RichTextField(
+    text = RichTextField(
         null=True,
         blank=True,
         verbose_name='Статья с редактором',
@@ -58,11 +54,6 @@ class Post(CreatedModel):
         related_name='posts',
         verbose_name="Группа",
         help_text='Группа, к которой будет относиться статья'
-    )
-    image = models.ImageField(
-        'Изображение',
-        upload_to='posts/',
-        blank=True
     )
     video = EmbedVideoField(
         blank=True,

@@ -7,9 +7,9 @@ from .models import Comment, Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('text', 'geeks_field', 'group', 'image', 'video')
+        fields = ('text', 'group', 'video')
         widgets = {
-            "geeks_field": RichTextFormField(config_name="default"),
+            "text": RichTextFormField(config_name="default"),
         }
 
 

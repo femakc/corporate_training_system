@@ -9,7 +9,6 @@
     {% for post in page_obj %}
       {% include 'includes/single_post.html' with show_author=True show_user=True %}
       {% if not forloop.last %}<hr>{% endif %}
-        </article>
     {% endfor %}
     {% include 'posts/includes/paginator.html' %}
   </div>

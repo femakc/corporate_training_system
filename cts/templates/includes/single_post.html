@@ -1,4 +1,4 @@
-<p>{{ post.text|slice:":200" }} ......</p><br>
+<p>{{ post.text|safe |slice:50 }} ......</p><br>
 <a href="{% url 'posts:post_detail' post.id %}" style="color:#e85221" >
   подробная информация </a><br>
 {% if post.group and show_group %}
