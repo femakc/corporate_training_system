@@ -2,6 +2,7 @@ from core.models import CreatedModel
 from django.conf import settings
 from django.db import models
 from embed_video.fields import EmbedVideoField
+from ckeditor.fields import RichTextField
 
 
 class Course(models.Model):
@@ -35,6 +36,12 @@ class Post(CreatedModel):
     text = models.TextField(
         verbose_name="Статья",
         help_text='Текст новой статью'
+    )
+    geeks_field = RichTextField(
+        null=True,
+        blank=True,
+        verbose_name='Статья с редактором',
+        help_text='Редактируйте статью как вам хочеться'
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,

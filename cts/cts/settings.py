@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'sorl.thumbnail',
     'haystack',
+    'ckeditor',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -136,5 +137,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'toolbar': 'basic',
+        'height': 300,
+        'width': '100%',
     },
 }
