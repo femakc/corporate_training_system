@@ -7,19 +7,19 @@
     <div class="row justify-content-center">
       <div class="col-md-8 p-5">
         <div class="card">
-          <div class="card-header">
-            Поиск
-          </div>
+<!--          <div class="card-header">-->
+<!--            Поиск-->
+<!--          </div>-->
           <div class="card-body">
             <form action="{% url 'posts:find_student' %}" method="get">
                 <div class="input-group">
                     <input id="search" name="q" type="text" class="form-control" placeholder="Поиск">
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-danger">Поиск</button>
+                        <button type="submit" class="btn btn-danger">Найти</button>
                     </div>
                 </div>
             </form>
-            <h1>Поиск</h1>
+<!--            <h1>Поиск</h1>-->
             {% if search_result %}
                 {% for user in search_result %}
                     <article>
