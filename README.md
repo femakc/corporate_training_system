@@ -14,14 +14,24 @@ psycopg2-binary
 docker  
 docker-compose  
     
-Содержание .env   
+Содержание .env
+```
 DB_ENGINE=django.db.backends.postgresql  
-DB_NAME=cts  
+DB_NAME=cts
+
 POSTGRES_USER=cts_user  
-POSTGRES_PASSWORD=cts_user  
-DB_HOST=127.0.0.1  
+POSTGRES_PASSWORD=cts_user
+
 DB_PORT=5432  
 
+DB_HOST=192.168.0.11
+
+WEB_SRV_HOST=192.168.0.22
+
+PROXY_HOST=192.168.0.33
+
+SUBNET_ADDR=192.168.0.0/24
+```
 
 Запуск проекта:  
 Клонировать репозиторий и перейти в папку с проектом    
