@@ -4,26 +4,73 @@ services:
   db:
     container_name: "db"
     image: postgres:13.0-alpine
-    restart: always
-    env_file:
-      - cts/.env
-    ports:
-      - "5432:5432"
+    restart: on-failure
+    environment:
+      - DB_NAME=${DB_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - type: bind
+        source: ./db_data
+        target: /var/lib/postgresql/data 
+      - type: bind
+        source: ./init.sql
+        target: /docker-entrypoint-initdb.d/init.sql
+    networks:
+      bridge_net:
+        ipv4_address: ${DB_HOST}
 
-#  web:
-#    build: .
-#    restart: always
-#    volumes:
-#      - static_value:/app/static/
-#      - media_value:/app/media/
-#    ports:
-#     - "8000:8000"
-#    depends_on:
-#      - db
-#    env_file:
-#      - cts/.env
-#
-#volumes:
-#  db_data:
-#  static_value:
-#  media_value:
+  web:
+    container_name: "web"
+    build: .
+    restart: on-failure
+    volumes:
+      - type: bind
+        source: ./static
+        target: /app/static/
+      - type: bind
+        source: ./media
+        target: /app/media/
+    depends_on:
+      - db
+    environment:
+      - DB_ENGINE=${DB_ENGINE}
+      - DB_NAME=${DB_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+    networks:
+      bridge_net:
+        ipv4_address: ${WEB_SRV_HOST}
+    
+  nginx_proxy:
+    container_name: "nginx"
+    image: nginx
+    restart: on-failure
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web
+    volumes:
+      - type: bind
+        source: ./nginx
+        target: /etc/nginx/conf.d
+      - type: bind
+        source: ./static
+        target: /var/html/static/
+      - type: bind
+        source: ./media
+        target: /var/html/media/
+    networks:
+      bridge_net:
+        ipv4_address: ${PROXY_HOST}
+
+networks:
+  bridge_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: ${SUBNET_ADDR}
