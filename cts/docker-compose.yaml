@@ -55,8 +55,11 @@ services:
       - web
     volumes:
       - type: bind
-        source: ./nginx
-        target: /etc/nginx/conf.d
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+      - type: bind
+        source: ./nginx/proxy_params
+        target: /etc/nginx/proxy_params
       - type: bind
         source: ./static
         target: /var/html/static/
