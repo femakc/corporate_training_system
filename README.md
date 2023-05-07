@@ -34,20 +34,20 @@ SUBNET_ADDR=192.168.0.0/24
 ```
 
 Запуск проекта:  
-Клонировать репозиторий и перейти в папку с проектом    
-Установить виртуальное окружение 
+
+Клонировать репозиторий и перейти в директорию проекта /cts
+
+При помощи docker compose запустить проект
 ```commandline
-python3 -m venv venv
-```
-Активировать виртуальное окружение  
-```commandline
-source venv/bin/activate
+docker-compose up -d
 ```
 
-Перейти в директорию cts/ и установить и файла requirements.txt зависимости
+Подключиться к контейнеру с django-приложением
 ```commandline
-pip install -r requirements.txt
+docker exec -it <container_hash> /bin/sh
 ```
+Внутри контейнера:
+
 Установить миграции 
 ```commandline
 python manage.py migrate
@@ -56,13 +56,3 @@ python manage.py migrate
 ```commandline
 python manage.py createsuperuser
 ```
-Запустить сервер
-```commandline
-python manage.py migrate
-```
-
-
-
-
-
-
