@@ -4,6 +4,7 @@
 {% endblock %}
 {% block content %}
 {% load embed_video_tags %}
+{% if permission_user %}
   <main>
     <div class="row">
       <aside class="col-12 col-md-3">
@@ -60,4 +61,11 @@
       </article>
     </div> 
   </main>
+{% else %}
+  <div class="container py-5">
+    <h1>У вас нет прав доступа на эту страницу</h1>
+    <p>Обратитесь к администратору. Код ошибки 403</p>
+    <a href="{% url 'posts:index' %}">Идите на главную</a>
+  </div>
+{% endif %}
 {% endblock %}

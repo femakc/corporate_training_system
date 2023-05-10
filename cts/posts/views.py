@@ -21,6 +21,7 @@ def index(request):
     return render(request, template, context)
 
 
+@login_required(login_url='/auth/login/')
 def group_posts(request, slug):
     """Страница группы постов"""
     template = 'posts/group_list.html'
@@ -37,15 +38,20 @@ def group_posts(request, slug):
     return render(request, template, context)
 
 
+@login_required(login_url='/auth/login/')
 def post_detail(request, post_id):
     """Страница подробной информации о посте"""
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, id=post_id)
     submit_users = LessonSubmitUser.objects.filter(
         post=post).select_related("user")
+    permission_user = Enrollment.objects.filter(
+        user=request.user).select_related('course').filter(course=post.group).exists()
     comments = post.comments.all()
     form = CommentForm()
+    # if Entry.objects.filter(id=e.id).exists():
     context = {
+        'permission_user': permission_user,
         'submit_users': submit_users,
         'post': post,
         'form': form,
