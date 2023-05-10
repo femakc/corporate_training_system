@@ -1,6 +1,6 @@
-<p>{{ post.text|safe |slice:50 }} ......</p><br>
-<a href="{% url 'posts:post_detail' post.id %}" style="color:#e85221" >
-  подробная информация </a><br>
+<p>{{ post.title }}</p>
+<p><a href="{% url 'posts:post_detail' post.id %}" style="color:#e85221" >
+  подробная информация </a></p>
 {% if post.group and show_group %}
   <a href="{% url 'posts:group_list' post.group.slug %}" style="color:#e85221" >
     все записи курса {{ post.group }}</a>

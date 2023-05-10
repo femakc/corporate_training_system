@@ -33,6 +33,11 @@ class Course(models.Model):
 
 
 class Post(CreatedModel):
+    title = models.CharField(
+        max_length=64,
+        verbose_name="Название статьи",
+        help_text="Введите название статьи"
+    )
     text = RichTextField(
         null=True,
         blank=True,
