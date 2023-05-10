@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from haystack.generic_views import SearchView
 from users.forms import AddCourseUserForm
@@ -45,13 +46,15 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     submit_users = LessonSubmitUser.objects.filter(
         post=post).select_related("user")
-    permission_user = Enrollment.objects.filter(
-        user=request.user).select_related('course').filter(course=post.group).exists()
     comments = post.comments.all()
     form = CommentForm()
-    # if Entry.objects.filter(id=e.id).exists():
+
+    if not Enrollment.objects.filter(
+            user=request.user
+    ).select_related('course').filter(course=post.group).exists():
+        raise PermissionDenied()
+
     context = {
-        'permission_user': permission_user,
         'submit_users': submit_users,
         'post': post,
         'form': form,
@@ -64,7 +67,7 @@ def post_detail(request, post_id):
     return render(request, template, context)
 
 
-@login_required
+@login_required(login_url='/auth/login/')
 @permission_required('posts.add_post', raise_exception=True)
 def post_create(request):
     """Страница создания поста"""
@@ -82,7 +85,7 @@ def post_create(request):
     return render(request, template, {'form': form})
 
 
-@login_required
+@login_required(login_url='/auth/login/')
 @permission_required('posts.change_post', raise_exception=True)
 def post_edit(request, post_id):
     """Страница редактирования поста"""
@@ -108,7 +111,7 @@ def post_edit(request, post_id):
     return render(request, template, context)
 
 
-@login_required
+@login_required(login_url='/auth/login/')
 @permission_required('posts.delete_post', raise_exception=True)
 def post_delete(request, post_id):
     """Функция удаления поста"""
@@ -120,7 +123,7 @@ def post_delete(request, post_id):
     return redirect("posts:post_detail", post_id)
 
 
-@login_required
+@login_required(login_url='/auth/login/')
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     form = CommentForm(request.POST or None)
@@ -132,7 +135,7 @@ def add_comment(request, post_id):
     return redirect('posts:post_detail', post_id=post_id)
 
 
-@login_required
+@login_required(login_url='/auth/login/')
 @permission_required('posts.add_post', raise_exception=True)
 def add_course_student(request, user_id):
     students = get_object_or_404(User, pk=user_id)
