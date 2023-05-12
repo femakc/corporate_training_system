@@ -31,7 +31,7 @@
           {% video post.video 'small' %}
         </p>
         <p>
-          {% if request.user.role == "student" and not submit_users %}
+          {% if request.user.role == "student" and not submit_user %}
             <form method="post">
             {% csrf_token %}
               <div class="buttons has-addons">
@@ -40,11 +40,11 @@
             </form>
           {% endif %}
           {% if request.user.role == "teacher" %}
-            {% if not submit_users %}
+            {% if not students %}
               нету студентов изучивших статью!<br>
             {% else %}
               список студентов изучивших статью:<br>
-              {% for student in submit_users %}
+              {% for student in students %}
                 {{ student.user.fio }}<br>
               {% endfor %}
             {% endif %}

@@ -44,8 +44,8 @@ def post_detail(request, post_id):
     """Страница подробной информации о посте"""
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, id=post_id)
-    submit_users = LessonSubmitUser.objects.filter(
-        post=post).select_related("user")
+    submit_user = LessonSubmitUser.objects.filter(user=request.user).filter(post=post)
+    students = LessonSubmitUser.objects.filter(post=post).select_related("user")
     comments = post.comments.all()
     form = CommentForm()
 
@@ -55,7 +55,8 @@ def post_detail(request, post_id):
         raise PermissionDenied()
 
     context = {
-        'submit_users': submit_users,
+        "students": students,
+        'submit_user': submit_user,
         'post': post,
         'form': form,
         'comments': comments
